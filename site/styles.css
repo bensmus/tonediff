@@ -16,7 +16,7 @@ button {
 	width: 200px;
 	height: 50px;
 	font-size: larger;
-	font-family: 'Vast Shadow', cursive;
+	font-family: 'Roboto Mono', monospace;
 	background-color: rgba(0, 255, 0, 0.657);
 	float: left;
 }
@@ -30,7 +30,6 @@ h1 {
 	font-weight: lighter;
 	color: brown;
 }
-
 
 h2 {
 	font-size: 24px;
@@ -55,9 +54,9 @@ ul {
 }
 
 kbd {
-	border: 1px solid rgb(12, 112, 12);
+	border: 1px solid rgb(0, 0, 0);
 	background-color: gainsboro;
-	box-shadow: 2px 2px 1px gray;
-	border-radius: 5px;
+	box-shadow: 1px 1px gray;
+	border-radius: 2px;
 	padding: 5px;
 }

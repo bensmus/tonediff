@@ -12,7 +12,11 @@ function playSound(arr) {
 	var source = context.createBufferSource();
 	source.buffer = buffer;
 	source.connect(context.destination);
-	source.start(0);
+
+	return new Promise(res => {
+		source.start(0);
+		source.onended = res
+	})
 }
 
 function sineWaveAt(sampleNumber, tone) {
@@ -59,11 +63,31 @@ function addAttackRelease(audio, duration, sampleRate) {
 	return audio;
 }
 
-function playSine(tone, seconds) {
+async function playSine(tone) {
 	let volume = 0.2;
+	let seconds = 1;
 	var arr = [];
 	for (var i = 0; i < context.sampleRate * seconds; i++) {
 		arr[i] = sineWaveAt(i, tone) * volume
 	}
-	playSound(addAttackRelease(arr, seconds, context.sampleRate));
+	await playSound(addAttackRelease(arr, seconds, context.sampleRate));
+}
+
+async function playTwoSines(tone1, tone2) {
+	let volume = 0.2;
+	let seconds = 1;
+
+	var arr1 = [];
+	for (var i = 0; i < context.sampleRate * seconds; i++) {
+		arr1[i] = sineWaveAt(i, tone1) * volume
+	}
+
+	await playSound(addAttackRelease(arr1, seconds, context.sampleRate));
+
+	var arr2 = [];
+	for (var i = 0; i < context.sampleRate * seconds; i++) {
+		arr2[i] = sineWaveAt(i, tone2) * volume
+	}
+
+	await playSound(addAttackRelease(arr2, seconds, context.sampleRate));
 }
