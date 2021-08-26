@@ -1,23 +1,40 @@
 var start_button = document.getElementById("start_button")
 
-var tone_input = document.getElementById("tone_input");
-var diff_input = document.getElementById("diff_input");
-var decrement_input = document.getElementById("decrement_input");
+var tone = Number(document.getElementById("tone_input").value);
+var diff = Number(document.getElementById("diff_input").value);
+var decrement = Number(document.getElementById("decrement_input").value);
 var state = document.getElementById("state");
 
 var state_first = "playing first note...";
 var state_second = "playing second note...";
-var state_wait = "please press up/down keys or enter...";
+var state_wait = "please press up/down keys, enter, or esc...";
 var state_correct = "correct.";
 var state_wrong = "wrong.";
 
+var keyCode = "";  // Holds last pressed key
+window.onkeydown = function (keyEvent) {
+	keyCode = keyEvent.code;
+}
+
+var validKeyCodes = new Set(["ArrowDown", "ArrowUp", "Enter", "Escape"]);
+
+function startButtonDisable() {
+	start_button.removeEventListener("click", gameLoop);
+	start_button.classList.add("disabled");
+	start_button.classList.remove("enabled");
+}
+
+function startButtonEnable() {
+	start_button.addEventListener("click", gameLoop);
+	start_button.classList.remove("disabled");
+	start_button.classList.add("enabled");
+}
+
 let gameLoop = function () {
-	let base_tone = Number(tone_input.value);
-	let tone_diff = Number(diff_input.value);
+	startButtonDisable();
 
 	// while (tone_diff > 0) {
-	let first = base_tone;
-	let second = base_tone + tone_diff;
+
 
 	// 	let descending = Math.round(Math.random());
 	// 	if (descending) {
@@ -26,14 +43,61 @@ let gameLoop = function () {
 	// 		second = temp;
 	// 	}
 
-	// 	playSine(first);
-	// 	playSine(second);
-	// }
+	// recursive function because this is actually simpler than a loop
+	oneCycle(tone, diff);
 
-	while (true) {
-		playTwoSines(first, second);
+}
+
+startButtonEnable();
+
+async function oneCycle(tone, diff) {
+	state.innerHTML = state_first;
+	await playSine(tone);
+	state.innerHTML = state_second;
+	await playSine(tone + diff);
+
+	// ????
+	state.innerHTML = state_wait;
+	await validKey();
+	if (keyCode == "Enter") {
+		oneCycle(tone, diff);
+	}
+	let repeatLater = false;
+	if (keyCode == "ArrowUp") {
+		console.log("ArrowUp was pressed.");
+		repeatLater = true;
+	}
+	if (keyCode == "ArrowDown") {
+		console.log("ArrowDown was pressed.");
+		repeatLater = true;
+	}
+	if (keyCode == "Escape") {
+		startButtonEnable();
+		state.innerHTML = "";
+	}
+	if (repeatLater) {
+		oneCycle(tone, diff - decrement);
 	}
 }
 
-start_button.addEventListener("click", gameLoop);
 
+
+function validKey() {
+	// Promise is resolved when user presses a valid key.
+	let myPromise = new Promise(function (myResolve, myReject) {
+		// Just checks once
+		// if (validKeyCodes.has(keyCode)) {
+		// 	myResolve();
+		// }
+
+		// Clear keyCode
+		keyCode = "";
+		setInterval(function () {
+			if (validKeyCodes.has(keyCode)) {
+				myResolve();
+			}
+		}, 100);
+	})
+
+	return myPromise;
+}

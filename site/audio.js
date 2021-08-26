@@ -73,21 +73,3 @@ async function playSine(tone) {
 	await playSound(addAttackRelease(arr, seconds, context.sampleRate));
 }
 
-async function playTwoSines(tone1, tone2) {
-	let volume = 0.2;
-	let seconds = 1;
-
-	var arr1 = [];
-	for (var i = 0; i < context.sampleRate * seconds; i++) {
-		arr1[i] = sineWaveAt(i, tone1) * volume
-	}
-
-	await playSound(addAttackRelease(arr1, seconds, context.sampleRate));
-
-	var arr2 = [];
-	for (var i = 0; i < context.sampleRate * seconds; i++) {
-		arr2[i] = sineWaveAt(i, tone2) * volume
-	}
-
-	await playSound(addAttackRelease(arr2, seconds, context.sampleRate));
-}

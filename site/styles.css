@@ -17,8 +17,18 @@ button {
 	height: 50px;
 	font-size: larger;
 	font-family: 'Roboto Mono', monospace;
-	background-color: rgba(0, 255, 0, 0.657);
 	float: left;
+	outline: 0;
+}
+
+.enabled {
+	background-color: rgba(0, 255, 0, 0.657);
+	cursor: auto;
+}
+
+.disabled {
+	background-color: rgba(0, 255, 0, 0.349);
+	cursor: disabled;
 }
 
 input {
