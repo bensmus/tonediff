@@ -1,18 +1,14 @@
-var sb = document.getElementById("start_button")
+var start_button = document.getElementById("start_button")
 
-var arr = [],
-	volume = 0.2,
-	seconds = 2,
-	tone = 441
+var tone_input = document.getElementById("tone_input");
+var diff_input = document.getElementById("diff_input");
+var decrement_input = document.getElementById("decrement_input");
+var seconds_input = document.getElementById("seconds_input");
 
-for (var i = 0; i < context.sampleRate * seconds; i++) {
-	arr[i] = sineWaveAt(i, tone) * volume
+let gameLoop = function () {
+
+	playSine(tone_input.value, seconds_input.value);
 }
 
-let wrapper = function () {
-	// playSound(arr); // no attack
-	playSound(addAttackRelease(arr, seconds, context.sampleRate)); // with attack and release
-}
-
-sb.addEventListener("click", wrapper);
+start_button.addEventListener("click", gameLoop);
 

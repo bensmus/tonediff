@@ -1,3 +1,5 @@
+// Taken from https://stackoverflow.com/questions/34708980/generate-sine-wave-and-play-it-in-the-browser
+
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var context = new AudioContext();
@@ -31,26 +33,37 @@ for (var i = 0; i < context.sampleRate * seconds; i++) {
 playSound(arr)
 */
 
+// My own work
 function addAttackRelease(audio, duration, sampleRate) {
 	// add 0.03 second linear attack and release to the audio
 	// usage: audio = addAttack(sampleRate, audio)
+	let transition = 0.03
 
-	let samplesToScale = sampleRate * 0.03;
+	let samplesToScale = sampleRate * transition;
 
 	// attack
 	for (let index = 0; index < samplesToScale; index++) {
 		const element = audio[index];
-		audio[index] = element * index / (sampleRate * 0.03);
+		audio[index] = element * index / (sampleRate * transition);
 	}
 
 	// release
-	let firstSample = (duration - 0.03) * sampleRate;  // first sample of release
+	let firstSample = (duration - transition) * sampleRate;  // first sample of release
 	let counter = 0;
 	for (let index = firstSample; index < (firstSample + samplesToScale); index++) {
 		const element = audio[index];
-		audio[index] -= element * counter / (sampleRate * 0.03);
+		audio[index] -= element * counter / (sampleRate * transition);
 		counter++;
 	}
 
 	return audio;
+}
+
+function playSine(tone, seconds) {
+	let volume = 0.2;
+	var arr = [];
+	for (var i = 0; i < context.sampleRate * seconds; i++) {
+		arr[i] = sineWaveAt(i, tone) * volume
+	}
+	playSound(addAttackRelease(arr, seconds, context.sampleRate));
 }

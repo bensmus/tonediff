@@ -9,13 +9,15 @@ body {
 
 button {
 	border-radius: 10px;
+	border-width: 5px;
 	margin-right: 10px;
 	margin-top: 15px;
 	margin-bottom: 5px;
 	width: 200px;
 	height: 50px;
 	font-size: larger;
-	background-color: greenyellow;
+	font-family: 'Vast Shadow', cursive;
+	background-color: rgba(0, 255, 0, 0.657);
 	float: left;
 }
 
@@ -26,7 +28,7 @@ h1 {
 	font-family: 'Comfortaa', cursive;
 	font-size: 50px;
 	font-weight: lighter;
-	color: chocolate;
+	color: brown;
 }
 
 
@@ -42,7 +44,7 @@ ul {
 .textgroup {
 	padding: 10px 30px;
 	border-style: solid;
-	border-color: chocolate;
+	border-color: brown;
 	border-radius: 10px;
 	border-width: 2px;
 }

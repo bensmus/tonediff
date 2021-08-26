@@ -8,10 +8,10 @@
 	<title>Tonediff</title>
 	<link rel="stylesheet" href="styles.css">
 
-	<!-- Comfortaa -->
+	<!-- Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Vast+Shadow&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -28,6 +28,9 @@
 			<li>Press the <kbd>&downarrow;</kbd> key if the second tone is lower pitched.</li>
 			<li>Press the <kbd>Enter</kbd> key to listen to the two tones again.</li>
 		</ul>
+		After pressing the up or down key, the challenge will repeat,
+		but with the tones being closer in frequency. How much closer the tones become is determined by the tone
+		decrement. Have fun!
 		</p>
 	</div>
 
@@ -36,15 +39,19 @@
 		<table>
 			<tr>
 				<td><span>Base tone (Hz): </span></td>
-				<td><input type="number"></td>
-			</tr>
-			<tr>
-				<td><span>Tone listen time (s): </span></td>
-				<td><input type="number"></td>
+				<td><input type="number" value="440" id="tone_input"></td>
 			</tr>
 			<tr>
 				<td><span>Initial tone difference (Hz): </span></td>
-				<td><input type="number"></td>
+				<td><input type="number" value="5" id="diff_input"></td>
+			</tr>
+			<tr>
+				<td><span>Tone decrement (Hz): </span></td>
+				<td><input type="number" value="0.5" id="decrement_input"></td>
+			</tr>
+			<tr>
+				<td><span>Tone listen time (s): </span></td>
+				<td><input type="number" value="2" id="seconds_input"></td>
 			</tr>
 		</table>
 	</div>
@@ -57,4 +64,5 @@
 
 <script src="audio.js"></script>
 <script src="main.js"></script>
+
 </html>
