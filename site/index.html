@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tonediff</title>
+	<link rel="stylesheet" href="styles.css">
+
+	<!-- Comfortaa -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<h1>Tonediff</h1>
+
+	<div class="textgroup">
+		<h2>How to play</h2>
+		<p>
+			After clicking the start button, you will hear two tones of different frequency. The point of this page
+			is
+			to see if you can tell which one of them is higher pitched! When the tones stop:
+		<ul>
+			<li>Press the <kbd>&uparrow;</kbd> key if the second tone is higher pitched.</li>
+			<li>Press the <kbd>&downarrow;</kbd> key if the second tone is lower pitched.</li>
+			<li>Press the <kbd>Enter</kbd> key to listen to the two tones again.</li>
+		</ul>
+		</p>
+	</div>
+
+	<div class="textgroup" id="bottom">
+		<h2>Settings</h2>
+		<table>
+			<tr>
+				<td><span>Base tone (Hz): </span></td>
+				<td><input type="number"></td>
+			</tr>
+			<tr>
+				<td><span>Tone listen time (s): </span></td>
+				<td><input type="number"></td>
+			</tr>
+			<tr>
+				<td><span>Initial tone difference (Hz): </span></td>
+				<td><input type="number"></td>
+			</tr>
+		</table>
+	</div>
+
+
+	<button id="start_button">START</button><br>
+	<em id="state">playing first note...</em>
+
+</body>
+
+<script src="audio.js"></script>
+<script src="main.js"></script>
+</html>
