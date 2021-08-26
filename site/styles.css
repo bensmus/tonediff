@@ -23,12 +23,14 @@ button {
 
 .enabled {
 	background-color: rgba(0, 255, 0, 0.657);
-	cursor: auto;
+	/* cursor: auto;
+	pointer-events: initial; */
 }
 
 .disabled {
 	background-color: rgba(0, 255, 0, 0.349);
-	cursor: disabled;
+	pointer-events: none;
+	cursor: not-allowed;
 }
 
 input {

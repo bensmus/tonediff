@@ -17,20 +17,23 @@ window.onkeydown = function (keyEvent) {
 }
 
 var validKeyCodes = new Set(["ArrowDown", "ArrowUp", "Enter", "Escape"]);
+var arrowKeyCodes = new Set(["ArrowDown", "ArrowUp"]);
 
 function startButtonDisable() {
+	console.log("Disabling start button.")
 	start_button.removeEventListener("click", gameLoop);
 	start_button.classList.add("disabled");
 	start_button.classList.remove("enabled");
 }
 
 function startButtonEnable() {
+	console.log("Enabling start button.")
 	start_button.addEventListener("click", gameLoop);
 	start_button.classList.remove("disabled");
 	start_button.classList.add("enabled");
 }
 
-let gameLoop = function () {
+let gameLoop = async function () {
 	startButtonDisable();
 
 	// while (tone_diff > 0) {
@@ -44,13 +47,15 @@ let gameLoop = function () {
 	// 	}
 
 	// recursive function because this is actually simpler than a loop
-	oneCycle(tone, diff);
-
+	await oneCycle(tone, diff);
+	startButtonEnable();
+	state.innerHTML = "";
 }
 
 startButtonEnable();
 
 async function oneCycle(tone, diff) {
+	console.log(diff);
 	state.innerHTML = state_first;
 	await playSine(tone);
 	state.innerHTML = state_second;
@@ -60,23 +65,28 @@ async function oneCycle(tone, diff) {
 	state.innerHTML = state_wait;
 	await validKey();
 	if (keyCode == "Enter") {
-		oneCycle(tone, diff);
+		await oneCycle(tone, diff);
 	}
 	let repeatLater = false;
-	if (keyCode == "ArrowUp") {
-		console.log("ArrowUp was pressed.");
-		repeatLater = true;
+
+	if (arrowKeyCodes.has(keyCode)) {
+		if (diff > decrement) {
+			repeatLater = true;
+		}
+		if (keyCode == "ArrowDown") {
+			console.log("ArrowDown was pressed.");
+		}
+		if (keyCode == "ArrowUp") {
+			console.log("ArrowUp was pressed.");
+		}
 	}
-	if (keyCode == "ArrowDown") {
-		console.log("ArrowDown was pressed.");
-		repeatLater = true;
-	}
-	if (keyCode == "Escape") {
-		startButtonEnable();
-		state.innerHTML = "";
-	}
+
+	// if (keyCode == "Escape") {
+	// 	startButtonEnable();
+	// 	state.innerHTML = "";
+	// }
 	if (repeatLater) {
-		oneCycle(tone, diff - decrement);
+		await oneCycle(tone, diff - decrement);
 	}
 }
 
