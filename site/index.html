@@ -19,20 +19,21 @@
 
 	<div class="textgroup">
 		<h2>How to play</h2>
-		<p>
-			After clicking the start button, you will hear two tones of different frequency. The point of this page
-			is
-			to see if you can tell which one of them is higher pitched! When the tones stop:
-		<ul>
-			<li>Press the <kbd>w</kbd> key if the second tone is higher pitched.</li>
-			<li>Press the <kbd>s</kbd> key if the second tone is lower pitched.</li>
-			<li>Press the <kbd>Enter</kbd> key to listen to the two tones again.</li>
-			<li>Press the <kbd>Esc</kbd> key to stop.</li>
-		</ul>
-		After pressing the up or down key, the challenge will repeat,
-		but with the tones being closer in frequency. How much closer the tones become is determined by the tone
-		decrement. Have fun!
-		</p>
+		<ol>
+			<li>Select the settings that you want.</li>
+			<li>Press the start button.</li>
+			<li>Listen to both tones.</li>
+			<li>Press one of these keys:</li>
+			<ul style="list-style-type: disc;">
+				<li>If the <strong>second</strong> tone is <strong>higher</strong> pitched, press <kbd>w</kbd> .</li>
+				<li>If the <strong>second</strong> tone is <strong>lower</strong> pitched, press <kbd>s</kbd> .</li>
+				<li>To listen to the same tones again, press <kbd>Enter</kbd> .</li>
+				<li>To quit, press <kbd>Esc</kbd> .</li>
+			</ul>
+		</ol>
+		The game will then tell you if you answered correctly. It will continue to repeat the tone comparison, but the
+		tones will get closer in pitch each cycle!
+
 	</div>
 
 	<div class="textgroup" id="settings">
@@ -53,7 +54,9 @@
 		</table>
 	</div>
 
-	<div class="textgroup" id="diff_info">
+	<div class="textgroup" id="info">
+		<p id="info_diff"></p>
+		<p id="info_cycle"></p>
 	</div>
 
 

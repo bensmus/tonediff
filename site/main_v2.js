@@ -1,15 +1,8 @@
 var start_button = document.getElementById("start_button")
 
-var tone, diff, decrement;
-function updateSettings() {
-	tone = Number(document.getElementById("tone_input").value);
-	diff = Number(document.getElementById("diff_input").value);
-	decrement = Number(document.getElementById("decrement_input").value);
-	diff_info.innerText = getInfoString();
-}
-
 var state = document.getElementById("state");
-var diff_info = document.getElementById("diff_info");
+var info_diff = document.getElementById("info_diff");
+var info_cycle = document.getElementById("info_cycle");
 
 var state_first = "playing first note...";
 var state_second = "playing second note...";
@@ -17,8 +10,25 @@ var state_wait = "please press w/s keys, enter, or esc...";
 var state_correct = "correct.";
 var state_wrong = "wrong.";
 
-function getInfoString() {
-	return "Current tone difference: " + diff + " Hz.\n";
+var tone, diff, decrement, total_cycles;
+function grabSettings() {
+	// Called on setting change and on initial load.
+	tone = Number(document.getElementById("tone_input").value);
+	diff = Number(document.getElementById("diff_input").value);
+	decrement = Number(document.getElementById("decrement_input").value);
+	total_cycles = Math.floor(diff / decrement);
+	updateInfo();
+}
+
+document.querySelectorAll("input").forEach(item => {
+	item.addEventListener('change', grabSettings);
+});
+
+function updateInfo() {
+	// Called within the play() loop, and implicitly by grabSettings()
+	info_diff.innerText = "Current tone difference: " + diff + " Hz.\n";
+	let current_cycle = total_cycles - Math.floor(diff / decrement);
+	info_cycle.innerText = "Current cycle: " + current_cycle + "/" + total_cycles;
 }
 
 var keyCode = "";  // Holds last pressed key
@@ -32,8 +42,6 @@ var validKeyCodes = new Set(["KeyS", "KeyW", "Enter", "Escape"]);
 var upDownKeyCodes = new Set(["KeyS", "KeyW"]);
 
 function preLoop() {
-	updateSettings()
-	diff_info.innerText = getInfoString();
 	state.innerText = "";
 	console.log("Disabling start button.");
 	start_button.removeEventListener("click", play);
@@ -41,8 +49,8 @@ function preLoop() {
 	start_button.classList.remove("enabled");
 }
 
-function startButtonEnable() {
-	diff_info.innerText = getInfoString();
+function postLoop() {
+	grabSettings();
 	state.innerText = "";
 	console.log("Enabling start button.")
 	start_button.addEventListener("click", play);
@@ -54,9 +62,7 @@ let play = async function () {
 	preLoop();
 	let forcedExit = false;  // Escape key
 	while (diff > 0 && !forcedExit) {
-
-		// Update info
-		diff_info.innerText = getInfoString();
+		updateInfo();
 
 		let descending = Math.round(Math.random());
 		let userDescending = false;  // 1 == true -> true
@@ -77,7 +83,7 @@ let play = async function () {
 		console.log(keyCode);
 		// Checking key codes
 		if (keyCode == "Escape") {
-			startButtonEnable();
+			postLoop();
 			forcedExit = true;
 		}
 		if (keyCode == "KeyS") {
@@ -95,7 +101,7 @@ let play = async function () {
 		}
 		// Must have pressed Enter. Don't do anything. The loop will loop.
 	}
-	startButtonEnable();
+	postLoop();
 }
 
 function validKey() {
@@ -125,4 +131,5 @@ function sleep(seconds) {
 	return promise;
 }
 
-startButtonEnable();
+postLoop();
+

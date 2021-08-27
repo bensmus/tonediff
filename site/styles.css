@@ -45,8 +45,9 @@ h2 {
 	font-weight: lighter;
 }
 
-ul {
-	line-height: 200%;
+li, ul {
+	padding-left: 20px;
+	text-indent: -10px;
 }
 
 .textgroup {
@@ -62,9 +63,8 @@ ul {
 	padding-bottom: 20px;
 }
 
-#diff_info {
+#info {
 	margin-top: 20px;
-	padding: 20px;
 }
 
 kbd {
@@ -72,5 +72,5 @@ kbd {
 	background-color: gainsboro;
 	box-shadow: 1px 1px gray;
 	border-radius: 2px;
-	padding: 5px;
+	padding: 2px;
 }
