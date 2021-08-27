@@ -24,7 +24,7 @@
 			<li>Press the start button.</li>
 			<li>Listen to both tones.</li>
 			<li>Press one of these keys:</li>
-			<ul style="list-style-type: disc;">
+			<ul>
 				<li>If the <strong>second</strong> tone is <strong>higher</strong> pitched, press <kbd>w</kbd> .</li>
 				<li>If the <strong>second</strong> tone is <strong>lower</strong> pitched, press <kbd>s</kbd> .</li>
 				<li>To listen to the same tones again, press <kbd>Enter</kbd> .</li>
@@ -32,7 +32,7 @@
 			</ul>
 		</ol>
 		The game will then tell you if you answered correctly. It will continue to repeat the tone comparison, but the
-		tones will get closer in pitch each cycle!
+		decrement setting will force the tones to get closer in pitch each cycle.
 
 	</div>
 
@@ -40,16 +40,27 @@
 		<h2>Settings</h2>
 		<table>
 			<tr>
-				<td><span>Base tone (Hz): </span></td>
+				<td><label for="tone_input">Base tone (Hz): </label></td>
 				<td><input type="number" value="440" id="tone_input"></td>
 			</tr>
 			<tr>
-				<td><span>Initial tone difference (Hz): </span></td>
+				<td><label for="diff_input">Initial tone difference (Hz): </label></td>
 				<td><input type="number" value="5" id="diff_input"></td>
 			</tr>
 			<tr>
-				<td><span>Tone decrement (Hz): </span></td>
-				<td><input type="number" value="0.5" id="decrement_input"></td>
+				<td><label for="decrement_mode">Decrement mode: </label></td>
+				<td><select name="decrement_mode" id="decrement_mode">
+						<option value="Constant">Constant</option>
+						<option value="Multiplier">Multiplier</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label for="constant_decrement_input">Tone decrement (Hz): </label></td>
+				<td><input type="number" value="0.5" id="constant_decrement_input"></td>
+			</tr>
+			<tr>
+				<td><label for="multiplier_decrement_input">Tone decrement multiplier: </label></td>
+				<td><input type="number" value="0.8" id="multiplier_decrement_input"></td>
 			</tr>
 		</table>
 	</div>

@@ -15,7 +15,7 @@ function grabSettings() {
 	// Called on setting change and on initial load.
 	tone = Number(document.getElementById("tone_input").value);
 	diff = Number(document.getElementById("diff_input").value);
-	decrement = Number(document.getElementById("decrement_input").value);
+	decrement = Number(document.getElementById("constant_decrement_input").value);
 	total_cycles = Math.floor(diff / decrement);
 	updateInfo();
 }
@@ -45,8 +45,8 @@ function preLoop() {
 	state.innerText = "";
 	console.log("Disabling start button.");
 	start_button.removeEventListener("click", play);
-	start_button.classList.add("disabled");
-	start_button.classList.remove("enabled");
+	start_button.classList.add("disabled_button");
+	start_button.classList.remove("enabled_button");
 }
 
 function postLoop() {
@@ -54,17 +54,22 @@ function postLoop() {
 	state.innerText = "";
 	console.log("Enabling start button.")
 	start_button.addEventListener("click", play);
-	start_button.classList.remove("disabled");
-	start_button.classList.add("enabled");
+	start_button.classList.remove("disabled_button");
+	start_button.classList.add("enabled_button");
 }
 
 let play = async function () {
 	preLoop();
-	let forcedExit = false;  // Escape key
-	while (diff > 0 && !forcedExit) {
+	let escPress = false;  // Escape key
+	let enterPress = false; // Enter key
+	let descending = false;
+	while (diff > 0 && !escPress) {
 		updateInfo();
 
-		let descending = Math.round(Math.random());
+		if (!enterPress) {
+			descending = Boolean(Math.round(Math.random()));
+		}
+
 		let userDescending = false;  // 1 == true -> true
 		if (descending) {
 			var first = tone + diff;
@@ -82,9 +87,14 @@ let play = async function () {
 		await validKey();
 		console.log(keyCode);
 		// Checking key codes
+		if (keyCode == "Enter") {
+			enterPress = true;
+		} else {
+			enterPress = false;
+		}
 		if (keyCode == "Escape") {
 			postLoop();
-			forcedExit = true;
+			escPress = true;
 		}
 		if (keyCode == "KeyS") {
 			userDescending = true;
@@ -99,7 +109,6 @@ let play = async function () {
 			}
 			diff -= decrement;
 		}
-		// Must have pressed Enter. Don't do anything. The loop will loop.
 	}
 	postLoop();
 }
