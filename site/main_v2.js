@@ -1,15 +1,19 @@
 var start_button = document.getElementById("start_button")
 
-var tone = Number(document.getElementById("tone_input").value);
-var diff = Number(document.getElementById("diff_input").value);
-var decrement = Number(document.getElementById("decrement_input").value);
+var tone, diff, decrement;
+function updateSettings() {
+	tone = Number(document.getElementById("tone_input").value);
+	diff = Number(document.getElementById("diff_input").value);
+	decrement = Number(document.getElementById("decrement_input").value);
+	diff_info.innerText = getInfoString();
+}
 
 var state = document.getElementById("state");
 var diff_info = document.getElementById("diff_info");
 
 var state_first = "playing first note...";
 var state_second = "playing second note...";
-var state_wait = "please press up/down keys, enter, or esc...";
+var state_wait = "please press w/s keys, enter, or esc...";
 var state_correct = "correct.";
 var state_wrong = "wrong.";
 
@@ -27,11 +31,12 @@ window.onkeydown = function (keyEvent) {
 var validKeyCodes = new Set(["KeyS", "KeyW", "Enter", "Escape"]);
 var upDownKeyCodes = new Set(["KeyS", "KeyW"]);
 
-function startButtonDisable() {
+function preLoop() {
+	updateSettings()
 	diff_info.innerText = getInfoString();
 	state.innerText = "";
-	console.log("Disabling start button.")
-	start_button.removeEventListener("click", gameLoop);
+	console.log("Disabling start button.");
+	start_button.removeEventListener("click", play);
 	start_button.classList.add("disabled");
 	start_button.classList.remove("enabled");
 }
@@ -40,13 +45,13 @@ function startButtonEnable() {
 	diff_info.innerText = getInfoString();
 	state.innerText = "";
 	console.log("Enabling start button.")
-	start_button.addEventListener("click", gameLoop);
+	start_button.addEventListener("click", play);
 	start_button.classList.remove("disabled");
 	start_button.classList.add("enabled");
 }
 
-let gameLoop = async function () {
-	startButtonDisable();
+let play = async function () {
+	preLoop();
 	let forcedExit = false;  // Escape key
 	while (diff > 0 && !forcedExit) {
 
@@ -121,4 +126,3 @@ function sleep(seconds) {
 }
 
 startButtonEnable();
-diff_info.innerText = getInfoString();

@@ -15,8 +15,8 @@ button {
 	margin-bottom: 5px;
 	width: 200px;
 	height: 50px;
-	font-size: larger;
-	font-family: 'Roboto Mono', monospace;
+	font-size: 24px;
+	font-family: monospace;
 	float: left;
 	outline: 0;
 }
@@ -27,7 +27,7 @@ button {
 
 .disabled {
 	background-color: rgba(0, 255, 0, 0.144);
-	pointer-events: none;
+	cursor: not-allowed;
 }
 
 input {
