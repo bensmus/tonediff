@@ -10,24 +10,55 @@ var state_wait = "please press w/s keys, enter, or esc...";
 var state_correct = "correct.";
 var state_wrong = "wrong.";
 
-var tone, diff, decrement, total_cycles;
+var constant_decrement_input = document.getElementById("constant_decrement_input");
+var multiplier_decrement_input = document.getElementById("multiplier_decrement_input");
+var tone, diff, mode, constant_decrement, multiplier_decrement, total_cycles;
 function grabSettings() {
 	// Called on setting change and on initial load.
 	tone = Number(document.getElementById("tone_input").value);
 	diff = Number(document.getElementById("diff_input").value);
-	decrement = Number(document.getElementById("constant_decrement_input").value);
-	total_cycles = Math.floor(diff / decrement);
+	mode = document.getElementById("decrement_mode").value;
+	if (mode == "constant") {
+		constant_decrement_input.classList.remove("disabled_input");
+		constant_decrement_input.disabled = false;
+		constant_decrement_input.labels[0].style.color = "black";
+		multiplier_decrement_input.classList.add("disabled_input");
+		multiplier_decrement_input.disabled = true;
+		multiplier_decrement_input.labels[0].style.color = "grey";
+	} else {
+		constant_decrement_input.classList.add("disabled_input");
+		constant_decrement_input.disabled = true;
+		constant_decrement_input.labels[0].style.color = "grey";
+		multiplier_decrement_input.classList.remove("disabled_input");
+		multiplier_decrement_input.disabled = false;
+		multiplier_decrement_input.labels[0].style.color = "black";
+	}
+	constant_decrement = Number(document.getElementById("constant_decrement_input").value);
+	multiplier_decrement = Number(document.getElementById("multiplier_decrement_input").value);
+
+	// ! condition of multiplier
+	if (mode == "constant") {
+		total_cycles = Math.floor(diff / constant_decrement);
+	} else {
+		total_cycles = Math.ceil(Math.log(0.1 / diff) / Math.log(multiplier_decrement));
+	}
+
 	updateInfo();
 }
 
-document.querySelectorAll("input").forEach(item => {
+document.querySelectorAll("input, select").forEach(item => {
 	item.addEventListener('change', grabSettings);
 });
 
 function updateInfo() {
 	// Called within the play() loop, and implicitly by grabSettings()
 	info_diff.innerText = "Current tone difference: " + diff + " Hz.\n";
-	let current_cycle = total_cycles - Math.floor(diff / decrement);
+	let current_cycle;
+	if (mode == "constant") {
+		current_cycle = total_cycles - Math.floor(diff / constant_decrement);
+	} else {
+		current_cycle = total_cycles - Math.ceil(Math.log(0.1 / diff) / Math.log(multiplier_decrement));
+	}
 	info_cycle.innerText = "Current cycle: " + current_cycle + "/" + total_cycles;
 }
 
@@ -46,7 +77,6 @@ function preLoop() {
 	console.log("Disabling start button.");
 	start_button.removeEventListener("click", play);
 	start_button.classList.add("disabled_button");
-	start_button.classList.remove("enabled_button");
 }
 
 function postLoop() {
@@ -55,7 +85,6 @@ function postLoop() {
 	console.log("Enabling start button.")
 	start_button.addEventListener("click", play);
 	start_button.classList.remove("disabled_button");
-	start_button.classList.add("enabled_button");
 }
 
 let play = async function () {
@@ -63,7 +92,7 @@ let play = async function () {
 	let escPress = false;  // Escape key
 	let enterPress = false; // Enter key
 	let descending = false;
-	while (diff > 0 && !escPress) {
+	while (diff > 0.1 && !escPress) {
 		updateInfo();
 
 		if (!enterPress) {
@@ -107,7 +136,11 @@ let play = async function () {
 				state.innerText = state_wrong;
 				await sleep(2);
 			}
-			diff -= decrement;
+			if (mode == "constant") {
+				diff -= constant_decrement;
+			} else {
+				diff *= multiplier_decrement;
+			}
 		}
 	}
 	postLoop();

@@ -19,15 +19,17 @@ button {
 	font-family: monospace;
 	float: left;
 	outline: 0;
-}
-
-.enabled_button {
 	background-color: rgba(0, 255, 0, 0.657);
 }
 
 .disabled_button {
 	background-color: rgba(0, 255, 0, 0.144);
 	cursor: not-allowed;
+}
+
+.disabled_input {
+	background-color: aliceblue;
+	color: grey;
 }
 
 label {
@@ -46,7 +48,8 @@ h2 {
 	font-weight: lighter;
 }
 
-li, ul {
+li,
+ul {
 	padding-left: 20px;
 	text-indent: -10px;
 }
