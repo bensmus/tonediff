@@ -23,14 +23,11 @@ button {
 
 .enabled {
 	background-color: rgba(0, 255, 0, 0.657);
-	/* cursor: auto;
-	pointer-events: initial; */
 }
 
 .disabled {
-	background-color: rgba(0, 255, 0, 0.349);
+	background-color: rgba(0, 255, 0, 0.144);
 	pointer-events: none;
-	cursor: not-allowed;
 }
 
 input {
@@ -60,9 +57,14 @@ ul {
 	border-width: 2px;
 }
 
-#bottom {
+#settings {
 	margin-top: 20px;
 	padding-bottom: 20px;
+}
+
+#diff_info {
+	margin-top: 20px;
+	padding: 20px;
 }
 
 kbd {
