@@ -4,24 +4,45 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var context = new AudioContext();
 
-function playSound(arr) {
-	var buf = new Float32Array(arr.length)
-	for (var i = 0; i < arr.length; i++) buf[i] = arr[i]
-	var buffer = context.createBuffer(1, buf.length, context.sampleRate)
-	buffer.copyToChannel(buf, 0)
+function playFromArray(arr) {
+	var buf = new Float32Array(arr.length);
+	for (var i = 0; i < arr.length; i++) buf[i] = arr[i];
+	var buffer = context.createBuffer(1, buf.length, context.sampleRate);
+	buffer.copyToChannel(buf, 0);
 	var source = context.createBufferSource();
 	source.buffer = buffer;
 	source.connect(context.destination);
 
 	return new Promise(res => {
 		source.start(0);
-		source.onended = res
+		source.onended = res;
 	})
 }
 
 function sineWaveAt(sampleNumber, tone) {
-	var sampleFreq = context.sampleRate / tone
-	return Math.sin(sampleNumber / (sampleFreq / (Math.PI * 2)))
+	let time = sampleNumber / context.sampleRate;
+	return Math.sin(time * tone * Math.PI * 2);
+}
+
+function triangleWaveAt(sampleNumber, tone) {
+	let time = sampleNumber / context.sampleRate;
+	let period = 1 / tone;
+	return triangle(time, period);
+}
+
+function triangle(time, period) {
+	let timeEquiv = time % period;
+	let m, x, b;
+	if (timeEquiv > period / 2) {
+		m = -2;
+		b = 1;
+		x = timeEquiv - period / 2;
+	} else {
+		m = 2;
+		b = -1;
+		x = timeEquiv;
+	}
+	return m * x + b;
 }
 
 /* USAGE
@@ -63,13 +84,31 @@ function addAttackRelease(audio, duration, sampleRate) {
 	return audio;
 }
 
-async function playSine(tone) {
+async function playTone(tone, timbre) {
 	let volume = 0.2;
 	let seconds = 1;
 	var arr = [];
 	for (var i = 0; i < context.sampleRate * seconds; i++) {
-		arr[i] = sineWaveAt(i, tone) * volume
+		if (timbre == "sine") {
+			arr[i] = sineWaveAt(i, tone) * volume;
+		} else if (timbre == "triangle") {
+			arr[i] = triangleWaveAt(i, tone) * volume;
+		}
 	}
-	await playSound(addAttackRelease(arr, seconds, context.sampleRate));
+	if (timbre == "triangle") {
+		smoothArray(arr, 100);
+	}
+
+	await playFromArray(addAttackRelease(arr, seconds, context.sampleRate));
 }
 
+// Low pass filter code from:
+// http://phrogz.net/js/framerate-independent-low-pass-filter.html
+function smoothArray(values, smoothing) {
+	var value = values[0]; // start with the first input
+	for (var i = 1; i < values.length; ++i) {
+		var currentValue = values[i];
+		value += (currentValue - value) / smoothing;
+		values[i] = value;
+	}
+}

@@ -12,12 +12,13 @@ var state_wrong = "wrong.";
 
 var constant_decrement_input = document.getElementById("constant_decrement_input");
 var multiplier_decrement_input = document.getElementById("multiplier_decrement_input");
-var tone, diff, mode, constant_decrement, multiplier_decrement, total_cycles;
+var tone, timbre, diff, mode, constant_decrement, multiplier_decrement, total_cycles;
 function grabSettings() {
 	// Called on setting change and on initial load.
 	tone = Number(document.getElementById("tone_input").value);
 	diff = Number(document.getElementById("diff_input").value);
 	mode = document.getElementById("decrement_mode").value;
+	timbre = document.getElementById("timbre").value;
 	if (mode == "constant") {
 		constant_decrement_input.classList.remove("disabled_input");
 		constant_decrement_input.disabled = false;
@@ -109,9 +110,9 @@ let play = async function () {
 		}
 
 		state.innerText = state_first;
-		await playSine(first);
+		await playTone(first, timbre);
 		state.innerText = state_second;
-		await playSine(second);
+		await playTone(second, timbre);
 		state.innerText = state_wait;
 		await validKey();
 		console.log(keyCode);
