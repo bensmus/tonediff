@@ -112,3 +112,19 @@ function smoothArray(values, smoothing) {
 		values[i] = value;
 	}
 }
+
+function freqToMidiIndex(f) {
+	return Math.round(Math.log(f/440) / Math.log(1.059463) + 69);
+}
+
+function midiIndexToHuman(i) {
+	let aOffset = Math.round((i + 3) % 12);
+    let notenames = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']; 
+    octave = Math.floor(i / 12) - 1;
+    return notenames[aOffset] + String(octave);
+}
+
+function freqToHuman(f) {
+	midiIndex = freqToMidiIndex(f);
+	return midiIndexToHuman(midiIndex);
+}
