@@ -82,3 +82,8 @@ kbd {
 	border-radius: 2px;
 	padding: 2px;
 }
+
+#info_tone_row {
+	padding-left: 10px;
+	font-size: small;
+}

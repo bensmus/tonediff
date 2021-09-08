@@ -3,6 +3,7 @@ var start_button = document.getElementById("start_button")
 var state = document.getElementById("state");
 var info_diff = document.getElementById("info_diff");
 var info_cycle = document.getElementById("info_cycle");
+var info_tone = document.getElementById("info_tone");
 
 var state_first = "playing first note...";
 var state_second = "playing second note...";
@@ -61,6 +62,7 @@ function updateInfo() {
 		current_cycle = total_cycles - Math.ceil(Math.log(0.1 / diff) / Math.log(multiplier_decrement));
 	}
 	info_cycle.innerText = "Current cycle: " + current_cycle + "/" + total_cycles;
+	info_tone.innerText = freqToHuman(tone);
 }
 
 var keyCode = "";  // Holds last pressed key
