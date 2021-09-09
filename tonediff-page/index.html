@@ -42,7 +42,7 @@
 			<tr>
 				<td><label for="tone_input">Base tone (Hz): </label></td>
 				<td><input type="number" value="440" id="tone_input"></td>
-				<td id="info_tone_row">In <a href="https://en.wikipedia.org/wiki/Equal_temperament">12-TET</a>: <span id="info_tone"></span></td>
+				<td class="freq_info">In <a href="https://en.wikipedia.org/wiki/Equal_temperament">12-TET</a>: <span id="info_tone"></span></td>
 			</tr>
 			<tr>
 				<td><label for="timbre">Tone timbre: </label></td>
@@ -54,6 +54,7 @@
 			<tr>
 				<td><label for="diff_input">Initial tone difference (Hz): </label></td>
 				<td><input type="number" value="5" id="diff_input"></td>
+				<td class="freq_info"><span id="info_diff_semitones"></span> semitones, <span id="info_diff_cents"></span> cents.</td>
 			</tr>
 			<tr>
 				<td><label for="decrement_mode">Decrement mode: </label></td>

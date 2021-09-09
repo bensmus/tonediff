@@ -83,7 +83,7 @@ kbd {
 	padding: 2px;
 }
 
-#info_tone_row {
+.freq_info {
 	padding-left: 10px;
 	font-size: small;
 }

@@ -5,6 +5,9 @@ var info_diff = document.getElementById("info_diff");
 var info_cycle = document.getElementById("info_cycle");
 var info_tone = document.getElementById("info_tone");
 
+var info_diff_cents = document.getElementById("info_diff_cents");
+var info_diff_semitones = document.getElementById("info_diff_semitones");
+
 var state_first = "playing first note...";
 var state_second = "playing second note...";
 var state_wait = "please press w/s keys, enter, or esc...";
@@ -63,6 +66,10 @@ function updateInfo() {
 	}
 	info_cycle.innerText = "Current cycle: " + current_cycle + "/" + total_cycles;
 	info_tone.innerText = freqToHuman(tone);
+
+	let diffobj = semitoneAndCentDiff(tone + diff, tone);
+	info_diff_cents.innerText = diffobj['cents'];
+	info_diff_semitones.innerText = diffobj['semitones'];
 }
 
 var keyCode = "";  // Holds last pressed key

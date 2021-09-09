@@ -128,3 +128,9 @@ function freqToHuman(f) {
 	midiIndex = freqToMidiIndex(f);
 	return midiIndexToHuman(midiIndex);
 }
+
+function semitoneAndCentDiff(f1, f2) {
+	let cents = Math.round(1200 * Math.log(f1 / f2) / Math.log(2));
+	let semitones = cents / 100;
+	return {'cents': cents, 'semitones': semitones};
+}
