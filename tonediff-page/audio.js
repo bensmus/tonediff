@@ -58,7 +58,6 @@ for (var i = 0; i < context.sampleRate * seconds; i++) {
 playSound(arr)
 */
 
-// My own work
 function addAttackRelease(audio, duration, sampleRate) {
 	// add 0.03 second linear attack and release to the audio
 	// usage: audio = addAttack(sampleRate, audio)
